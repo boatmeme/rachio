@@ -1,0 +1,30 @@
+{
+  "name": "rachio",
+  "version": "0.0.1",
+  "description": "Node.js client for Rachio Smart Sprinkler controller",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/boatmeme/rachio.git"
+  },
+  "keywords": [
+    "rachio",
+    "sprinkler",
+    "api",
+    "node.js",
+    "client",
+    "smart",
+    "home",
+    "automation",
+    "iot"
+  ],
+  "author": "Jonathan Griggs <jonathan.griggs@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/boatmeme/rachio/issues"
+  },
+  "homepage": "https://github.com/boatmeme/rachio#readme"
+}
