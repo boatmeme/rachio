@@ -1,5 +1,8 @@
 # Changelog
 ## [Unreleased]
+- Started documentation
+- Implemented many GET endpoints
+- Implemented integration Tests
 
 ## 0.0.1 - 2017-06-16
 ### Added
