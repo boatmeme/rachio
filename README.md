@@ -1,4 +1,4 @@
-# rachio
+# rachio [![npm version](https://badge.fury.io/js/rachio.svg)](https://badge.fury.io/js/rachio)
 
 In progress...
 

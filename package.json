@@ -4,7 +4,8 @@
   "description": "Node.js client for Rachio Smart Sprinkler controller",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run mocha && npm run lint",
+    "mocha": "mocha -R spec ./test"
   },
   "repository": {
     "type": "git",
@@ -26,5 +27,16 @@
   "bugs": {
     "url": "https://github.com/boatmeme/rachio/issues"
   },
-  "homepage": "https://github.com/boatmeme/rachio#readme"
+  "homepage": "https://github.com/boatmeme/rachio#readme",
+  "dependencies": {
+    "lodash": "4.17.4",
+    "moment": "2.18.1",
+    "request": "2.81.0"
+  },
+  "devDependencies": {
+    "eslint": "4.0.0",
+    "eslint-config-airbnb": "15.0.1",
+    "mocha": "3.4.2",
+    "should": "11.2.1"
+  }
 }
