@@ -34,7 +34,7 @@ Returns information about the specified *device_id*
 
 ##### Example
 
-## getDeviceEvents ( device_id, startTime, endTime, [, filters] )
+## getDeviceEvents ( device_id, startTime, endTime [, filters] )
 Returns an array of all events from the specified *device_id*, between the _startTime_ and _endTime_.
 Both the _startTime_ and _endTime_ parameters are numbers representing the desired times as Unix epoch in milliseconds.
 
@@ -85,7 +85,7 @@ rachio.getDeviceEvents( 'my-device-id', 1497877200000, 1497963600000, { category
 
 ##### Example
 
-## getDeviceForecast ( device_id, [, startTime, endTime, units] )
+## getDeviceForecast ( device_id [, startTime, endTime, units] )
 
 ##### Example
 

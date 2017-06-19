@@ -2,7 +2,7 @@
 const should = require('should');
 const Rachio = require('../');
 const moment = require('moment');
-const api_token = process.env.RACHIO_API_TOKEN || require('../.local/test-config.json').api_token;
+const api_token = process.env.RACHIO_API_TOKEN;
 
 describe('Rachio', () => {
   let client, device_id;
