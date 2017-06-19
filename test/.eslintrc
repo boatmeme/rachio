@@ -1,0 +1,13 @@
+{
+  "env": {
+    "mocha": true
+  },
+  "plugins": [
+    "mocha"
+  ],
+  "rules": {
+    "arrow-parens": ["error", "as-needed"],
+    "no-unused-vars": ["error", { "varsIgnorePattern": "^should$" }],
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.test.js"]}]
+  }
+}

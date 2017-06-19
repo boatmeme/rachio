@@ -3,6 +3,7 @@
 - Started documentation
 - Implemented many GET endpoints
 - Implemented integration Tests
+- Imported eslint dependencies, refactored to conform to eslint rules
 
 ## 0.0.1 - 2017-06-16
 ### Added
