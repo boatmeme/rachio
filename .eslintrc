@@ -2,11 +2,11 @@
   "extends":"airbnb/base",
   "env": {
     "node":true,
-    "es6":true
+    "es6":true,
   },
   "parserOptions": {
     "ecmaVersion": 6,
-    "sourceType": "script"
+    "sourceType": "module"
   },
   "rules": {
     "no-underscore-dangle": ["error", { "allowAfterThis": true }]

@@ -1,3 +1,1 @@
-'use strict';
-
-module.exports = require('./lib/RachioApi');
+module.exports = require('./lib/RachioClient');

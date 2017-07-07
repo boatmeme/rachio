@@ -110,6 +110,7 @@ Returns an array of zones for the specified *device_id*
 - Better, friendlier date handling. The client-facing api doesn't have to be exclusively epoch-based.
 - Documentation, documentation...
 - Continuous integration
+- Explore packaging as a general javascript library (work from browser or node)
 
 #### Testing
 
