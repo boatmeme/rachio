@@ -40,6 +40,10 @@
     "eslint-plugin-import": "2.3.0",
     "eslint-plugin-mocha": "4.11.0",
     "mocha": "3.4.2",
+    "nock": "9.0.13",
     "should": "11.2.1"
+  },
+  "engines": {
+    "node": ">=6.0.0"
   }
 }
