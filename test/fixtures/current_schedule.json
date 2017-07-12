@@ -1,0 +1,15 @@
+{
+  "deviceId": "2a5e7d3c-c140-4e2e-91a1-a212a518adc5",
+  "scheduleId": "ba8af494-bc32-4b34-8fa4-27bb00033477",
+  "type": "MANUAL",
+  "status": "PROCESSING",
+  "startDate": 1416467043933,
+  "duration": 600,
+  "zoneId": "710b5add-4ce1-4d10-9a73-523823c7a82b",
+  "zoneStartDate": 1416467043933,
+  "zoneDuration": 600,
+  "cycleCount": 1,
+  "totalCycleCount": 1,
+  "cycling": false,
+  "durationNoCycle": 600
+}
