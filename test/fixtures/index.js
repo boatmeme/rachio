@@ -7,6 +7,8 @@ const Person = require('./person.json');
 const CurrentSchedule = require('./current_schedule.json');
 const Forecast = require('./forecast.json');
 const ForecastUpdate = require('./forecast_update.json');
+const Zone = require('./zone.json');
+const ZoneUpdate = require('./zone_update.json');
 const Events = require('./events.json');
 const Device = require('./device.json');
 
@@ -81,6 +83,23 @@ Fixtures.Forecast = () => {
     .get('/1/public/device/RefreshCurrentConditions/forecast')
     .query(true)
     .reply(200, ForecastUpdate);
+};
+
+Fixtures.Zone = () => {
+  nock('https://api.rach.io')
+    .get('/1/public/person/info')
+    .reply(200, PersonInfo)
+    .get('/1/public/person/c8d10892-fd69-48b3-8743-f111e4392d8a')
+    .reply(200, Person)
+    .get('/1/public/device/2a5e7d3c-c140-4e2e-91a1-a212a518adc5')
+    .times(2)
+    .reply(200, Device)
+    .get('/1/public/zone/f0e042bd-7ba1-4aba-bede-6d8b16857d3a')
+    .reply(200, Zone)
+    .get('/1/public/zone/f0e042bd-7ba1-4aba-bede-6d8b16857d3a')
+    .reply(200, Zone)
+    .get('/1/public/zone/f0e042bd-7ba1-4aba-bede-6d8b16857d3a')
+    .reply(200, ZoneUpdate);
 };
 
 module.exports = {

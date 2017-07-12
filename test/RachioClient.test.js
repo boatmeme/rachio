@@ -170,12 +170,38 @@ describe('Rachio', () => {
     });
   });
   describe('Zones API', () => {
+    before(setupFixtures(Fixtures.Zone));
+    after(teardownFixtures);
+
     describe('getZonesForDevice', () => {
       it('should get the zones for the specified device', () =>
         client.getZonesByDevice(deviceId)
-          .then(zones => {
-            zones.should.be.an.Array();
-          }));
+          .then(validateArray(validateZone, 8)));
+
+      describe('Zone', () => {
+        let deviceZone;
+
+        before(() =>
+          client.getZonesByDevice(deviceId)
+            .then(zones => {
+              deviceZone = zones[2];
+            }));
+
+        it('should get a zone', () =>
+          client.getZone(deviceZone.id)
+            .then(validateZone));
+
+        it('should refresh a zone', () =>
+          client.getZone(deviceZone.id)
+            .then(validateZone)
+            .then(zone => zone.refresh()
+              .then(validateZone)
+              .then(refreshedZone => {
+                refreshedZone.should.not.eql(zone);
+                refreshedZone.should.have.property('enabled').is.false();
+                zone.should.have.property('enabled').is.true();
+              })));
+      });
     });
   });
   describe.skip('Webhooks API', () => {
