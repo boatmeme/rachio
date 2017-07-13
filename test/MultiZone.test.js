@@ -6,6 +6,8 @@ const {
   Fixtures,
 } = require('./fixtures');
 
+const { validateError } = require('./validators');
+
 const apiToken = process.env.RACHIO_API_TOKEN || '8e600a4c-0027-4a9a-9bda-dc8d5c90350d';
 const client = new Rachio(apiToken);
 
@@ -40,6 +42,14 @@ describe('MultiZone', () => {
             .then(() => zone.stop())
             .then(() => zone.isWatering())
             .then(isWatering => isWatering.should.be.false()));
+    });
+  });
+
+  describe('get', () => {
+    it('should throw an error', () => {
+      const multi = client.multiZone();
+      multi.get({ id: 'anything' })
+        .catch(validateError);
     });
   });
 });
