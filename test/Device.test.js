@@ -106,4 +106,31 @@ describe('Device', () => {
           .then(validateArray(validateForecast, 4)));
     });
   });
+
+  describe('Watering', () => {
+    before(setupFixtures(Fixtures.DeviceWatering));
+    after(teardownFixtures);
+
+    describe('isWatering', () => {
+      it('should report the correct status if a zone is watering', () => {
+        const zone = device.zones[2];
+        return device.isWatering()
+          .then(isWatering => isWatering.should.be.false())
+          .then(() => zone.start())
+          .then(() => device.isWatering())
+          .then(isWatering => isWatering.should.be.true())
+          .then(() => device.stopWater())
+          .then(() => device.isWatering())
+          .then(isWatering => isWatering.should.be.false());
+      });
+    });
+  });
+
+  describe('Standby', () => {
+
+  });
+
+  describe('RainDelay', () => {
+
+  });
 });

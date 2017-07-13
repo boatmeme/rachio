@@ -97,6 +97,24 @@ Fixtures.DeviceForecast = () =>
     .query(true)
     .reply(200, Forecast);
 
+Fixtures.DeviceWatering = () => {
+  let ZoneWateringSchedule = {};
+  return nock('https://api.rach.io')
+    .get('/1/public/device/2a5e7d3c-c140-4e2e-91a1-a212a518adc5/current_schedule')
+    .times(3)
+    .reply(() => ([200, ZoneWateringSchedule]))
+    .put('/1/public/device/stop_water', { id: '2a5e7d3c-c140-4e2e-91a1-a212a518adc5' })
+    .reply(() => {
+      ZoneWateringSchedule = {};
+      return [204];
+    })
+    .put('/1/public/zone/start', { id: 'ec47f4a6-5771-4d8f-834a-89bc7d889ea4', duration: /[0-9].+/ })
+    .reply(() => {
+      ZoneWateringSchedule = CurrentSchedule;
+      return [204];
+    });
+};
+
 Fixtures.Zone = () => {
   let ZoneWateringSchedule = {};
   return nock('https://api.rach.io')
