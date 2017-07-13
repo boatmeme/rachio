@@ -108,7 +108,7 @@ Fixtures.DeviceWatering = () => {
       ZoneWateringSchedule = {};
       return [204];
     })
-    .put('/1/public/zone/start', { id: 'ec47f4a6-5771-4d8f-834a-89bc7d889ea4', duration: /[0-9].+/ })
+    .put('/1/public/zone/start', { id: 'ec47f4a6-5771-4d8f-834a-89bc7d889ea4', duration: /[0-9]+/ })
     .reply(() => {
       ZoneWateringSchedule = CurrentSchedule;
       return [204];
@@ -129,6 +129,23 @@ Fixtures.DeviceStandby = () => {
     .put('/1/public/device/on', { id: '2a5e7d3c-c140-4e2e-91a1-a212a518adc5' })
     .reply(() => {
       enabled = true;
+      return [204];
+    });
+};
+
+Fixtures.RainDelay = () => {
+  let rainDelayStartDate = 1499458431922;
+  let rainDelayExpirationDate = 1499458431922;
+
+  return nock('https://api.rach.io')
+    .persist()
+    .get('/1/public/device/2a5e7d3c-c140-4e2e-91a1-a212a518adc5')
+    .reply(() =>
+      ([200, Object.assign({}, Device, { rainDelayStartDate, rainDelayExpirationDate })]))
+    .put('/1/public/device/rain_delay', { id: '2a5e7d3c-c140-4e2e-91a1-a212a518adc5', duration: /[0-9]+/ })
+    .reply((uri, body) => {
+      rainDelayStartDate = Date.now();
+      rainDelayExpirationDate = rainDelayStartDate + (body.duration * 1000);
       return [204];
     });
 };
@@ -162,7 +179,7 @@ Fixtures.Zone = () => {
       ZoneWateringSchedule = {};
       return [204];
     })
-    .put('/1/public/zone/start', { id: 'f0e042bd-7ba1-4aba-bede-6d8b16857d3a', duration: /[0-9].+/ })
+    .put('/1/public/zone/start', { id: 'f0e042bd-7ba1-4aba-bede-6d8b16857d3a', duration: /[0-9]+/ })
     .reply(() => {
       ZoneWateringSchedule = CurrentSchedule;
       return [204];

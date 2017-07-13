@@ -142,6 +142,57 @@ describe('Device', () => {
   });
 
   describe('RainDelay', () => {
+    before(setupFixtures(Fixtures.RainDelay));
+    after(teardownFixtures);
 
+    describe('rainDelay', () => {
+      it('should register a rainDelay of 1 Day as a default', () => {
+        const now = Date.now() - 1;
+        return device.rainDelay()
+          .then(() => device.refresh())
+          .then(d => {
+            d.should.have.property('rainDelayStartDate').is.a.Number().greaterThan(now);
+            d.should.have.property('rainDelayExpirationDate').is.a.Number().greaterThan(d.rainDelayStartDate);
+            should(d.rainDelayExpirationDate - d.rainDelayStartDate).be.eql(86400 * 1000);
+          });
+      });
+
+      it('should register a rainDelay', () => {
+        const now = Date.now() - 1;
+        const delayLength = 60;
+        return device.rainDelay(60)
+          .then(() => device.refresh())
+          .then(d => {
+            d.should.have.property('rainDelayStartDate').is.a.Number().greaterThan(now);
+            d.should.have.property('rainDelayExpirationDate').is.a.Number().greaterThan(d.rainDelayStartDate);
+            should(d.rainDelayExpirationDate - d.rainDelayStartDate).be.eql(delayLength * 1000);
+          });
+      });
+
+      it('should error for invalid rainDelays', () =>
+        device.rainDelay(-1)
+          .catch(validateError)
+          .then(() => device.rainDelay(100000000))
+          .catch(validateError));
+    });
+
+    describe('rainDelayCancel', () => {
+      it('should disable an existing RainDelay', () => {
+        const now = Date.now() - 1;
+        return device.rainDelay()
+          .then(() => device.refresh())
+          .then(d => {
+            d.should.have.property('rainDelayStartDate').is.a.Number().greaterThan(now);
+            d.should.have.property('rainDelayExpirationDate').is.a.Number().greaterThan(d.rainDelayStartDate);
+            should(d.rainDelayExpirationDate - d.rainDelayStartDate).be.eql(86400 * 1000);
+          })
+          .then(() => device.rainDelayCancel())
+          .then(() => device.refresh())
+          .then(d => {
+            d.should.have.property('rainDelayStartDate').is.a.Number().greaterThan(now);
+            d.should.have.property('rainDelayExpirationDate').is.a.Number().eql(d.rainDelayStartDate);
+          });
+      });
+    });
   });
 });
