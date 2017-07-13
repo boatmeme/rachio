@@ -87,10 +87,10 @@ Fixtures.Zone = () => {
   let ZoneWateringSchedule = {};
   return nock('https://api.rach.io')
     .get('/1/public/person/info')
-    .times(2)
+    .times(3)
     .reply(200, PersonInfo)
     .get('/1/public/person/c8d10892-fd69-48b3-8743-f111e4392d8a')
-    .times(2)
+    .times(3)
     .reply(200, Person)
     .get('/1/public/device/2a5e7d3c-c140-4e2e-91a1-a212a518adc5')
     .times(3)

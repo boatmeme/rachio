@@ -1,67 +1,25 @@
 const should = require('should');
 const Rachio = require('../');
 const moment = require('moment');
-const _ = require('lodash');
-const { setupFixtures, teardownFixtures, Fixtures } = require('./fixtures');
+const {
+  setupFixtures,
+  teardownFixtures,
+  Fixtures,
+} = require('./fixtures');
+const {
+  validateArray,
+  validatePerson,
+  validateDevice,
+  validateCurrentSchedule,
+  validateEvent,
+  validateError,
+  validateForecast,
+  validateCurrentConditions,
+  validateZone,
+} = require('./validators');
 
-const Resource = require('../lib/resource/Resource');
-const Person = require('../lib/resource/Person');
-const CurrentConditions = require('../lib/resource/CurrentConditions');
-const Forecast = require('../lib/resource/Forecast');
-const Device = require('../lib/resource/Device');
-const Event = require('../lib/resource/Event');
-const Zone = require('../lib/resource/Zone');
-const CurrentSchedule = require('../lib/resource/CurrentSchedule');
+const apiToken = process.env.RACHIO_API_TOKEN || '8e600a4c-0027-4a9a-9bda-dc8d5c90350d';
 
-const apiToken = process.env.RACHIO_API_TOKEN;
-
-function validateZone(zone) {
-  zone.should.be.an.Object().instanceOf(Zone).and.instanceOf(Resource);
-  return zone;
-}
-
-function validateEvent(event) {
-  event.should.be.an.Object().instanceOf(Event).and.instanceOf(Resource);
-  return event;
-}
-
-function validateCurrentSchedule(currentSchedule) {
-  currentSchedule.should.be.an.Object().instanceOf(CurrentSchedule).and.instanceOf(Resource);
-  return currentSchedule;
-}
-
-function validateForecast(forecast) {
-  forecast.should.be.an.Object().instanceOf(Forecast).and.instanceOf(Resource);
-  return forecast;
-}
-
-function validateCurrentConditions(currentConditions) {
-  currentConditions.should.be.an.Object().instanceOf(CurrentConditions).and.instanceOf(Resource);
-  return currentConditions;
-}
-
-function validateDevice(device) {
-  device.should.be.an.Object().instanceOf(Device).and.instanceOf(Resource);
-  device.should.have.property('zones').is.an.Array();
-  device.zones.forEach(validateZone);
-  return device;
-}
-
-function validateError(error) {
-  error.should.be.an.Error();
-  return error;
-}
-
-function validateArray(validationFn, length) {
-  return arr => {
-    if (_.isNumber(length)) {
-      arr.should.be.an.Array().of.length(length);
-    } else {
-      arr.should.be.an.Array();
-    }
-    arr.forEach(validationFn);
-  };
-}
 
 describe('Rachio', () => {
   let client;
@@ -89,9 +47,7 @@ describe('Rachio', () => {
       it('should get the currently authenticated user id', () =>
         client.getPersonInfo()
           .then(({ id }) => client.getPerson(id))
-          .then(user => {
-            user.should.be.ok().and.an.Object().instanceOf(Person);
-          }));
+          .then(validatePerson));
     });
   });
   describe('Device API', () => {
@@ -177,63 +133,14 @@ describe('Rachio', () => {
       });
     });
   });
-  describe('Zones API', () => {
-    let deviceZone;
-    before(() => {
-      setupFixtures(Fixtures.Zone)();
-      return client.getZonesByDevice(deviceId)
-        .then(zones => {
-          deviceZone = zones[2];
-        });
-    });
+  describe('Zones', () => {
+    before(setupFixtures(Fixtures.Zone));
     after(teardownFixtures);
 
-    describe('RachioClient', () => {
-      describe('getZonesForDevice', () => {
-        it('should get the zones for the specified device', () =>
-          client.getZonesByDevice(deviceId)
-            .then(validateArray(validateZone, 8)));
-      });
-    });
-
-    describe('Zone', () => {
-      describe('get / refresh', () => {
-        it('should get a zone', () =>
-          client.getZone(deviceZone.id)
-            .then(validateZone));
-
-        it('should refresh a zone', () =>
-          client.getZone(deviceZone.id)
-            .then(validateZone)
-            .then(zone => zone.refresh()
-              .then(validateZone)
-              .then(refreshedZone => {
-                refreshedZone.should.not.eql(zone);
-                refreshedZone.should.have.property('enabled').is.false();
-                zone.should.have.property('enabled').is.true();
-              })));
-
-        it('should get the zone\'s device', () =>
-          client.getZone(deviceZone.id)
-            .then(validateZone)
-            .then(zone => zone.getDevice())
-            .then(validateDevice));
-      });
-
-      describe('start', () => {
-        it('should start a zone watering', () =>
-          client.getZone(deviceZone.id)
-            .then(validateZone)
-            .then(zone =>
-              zone.isWatering()
-                .then(isWatering => isWatering.should.be.false())
-                .then(() => zone.start())
-                .then(() => zone.isWatering())
-                .then(isWatering => isWatering.should.be.true())
-                .then(() => zone.stop())
-                .then(() => zone.isWatering())
-                .then(isWatering => isWatering.should.be.false())));
-      });
+    describe('getZonesForDevice', () => {
+      it('should get the zones for the specified device', () =>
+        client.getZonesByDevice(deviceId)
+          .then(validateArray(validateZone, 8)));
     });
   });
   describe.skip('Webhooks API', () => {
