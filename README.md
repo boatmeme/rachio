@@ -1,4 +1,4 @@
-# rachio [![npm version](https://badge.fury.io/js/rachio.svg)](https://badge.fury.io/js/rachio)
+# rachio [![npm version](https://badge.fury.io/js/rachio.svg)](https://badge.fury.io/js/rachio) [![Build Status](https://travis-ci.org/boatmeme/rachio.svg?branch=master)](https://travis-ci.org/boatmeme/rachio) [![codecov](https://codecov.io/gh/boatmeme/rachio/branch/master/graph/badge.svg)](https://codecov.io/gh/boatmeme/rachio)
 
 Node.js client for Rachio Smart Sprinkler controller
 
