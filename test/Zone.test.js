@@ -5,7 +5,7 @@ const {
   teardownFixtures,
   Fixtures,
 } = require('./fixtures');
-const { validateZone, validateDevice } = require('./validators');
+const { validateZone, validateDevice, validateMultiZone } = require('./validators');
 
 const apiToken = process.env.RACHIO_API_TOKEN || '8e600a4c-0027-4a9a-9bda-dc8d5c90350d';
 const client = new Rachio(apiToken);
@@ -45,6 +45,17 @@ describe('Zone', () => {
         .then(validateZone)
         .then(zone => zone.getDevice())
         .then(validateDevice));
+  });
+
+  describe('multi', () => {
+    it('should get a new MultiZone with the current device appended', () =>
+      client.getZone(deviceZone.id)
+        .then(validateZone)
+        .then(zone => {
+          const multi = zone.multi();
+          validateMultiZone(multi);
+          multi._zones.should.be.an.Array().of.length(1); // eslint-disable-line
+        }));
   });
 
   describe('start', () => {

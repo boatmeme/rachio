@@ -102,7 +102,7 @@ Fixtures.Zone = () => {
     .get('/1/public/zone/f0e042bd-7ba1-4aba-bede-6d8b16857d3a')
     .reply(200, ZoneUpdate)
     .get('/1/public/zone/f0e042bd-7ba1-4aba-bede-6d8b16857d3a')
-    .times(3)
+    .times(4)
     .reply(200, Zone)
     .get('/1/public/device/2a5e7d3c-c140-4e2e-91a1-a212a518adc5/current_schedule')
     .times(3)
