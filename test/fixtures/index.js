@@ -73,7 +73,8 @@ Fixtures.Generic = () =>
 
 Fixtures.Forecast = () =>
   nock('https://api.rach.io')
-    .get('/1/public/device/2a5e7d3c-c140-4e2e-91a1-a212a518adc5/forecast').times(5)
+    .get('/1/public/device/2a5e7d3c-c140-4e2e-91a1-a212a518adc5/forecast')
+    .times(5)
     .query(true)
     .reply(200, Forecast)
     .get('/1/public/device/RefreshCurrentConditions/forecast')
@@ -82,6 +83,19 @@ Fixtures.Forecast = () =>
     .get('/1/public/device/RefreshCurrentConditions/forecast')
     .query(true)
     .reply(200, ForecastUpdate);
+
+Fixtures.DeviceForecast = () =>
+  nock('https://api.rach.io')
+    .get('/1/public/device/2a5e7d3c-c140-4e2e-91a1-a212a518adc5/forecast')
+    .query(true)
+    .reply(200, Forecast)
+    .get('/1/public/device/2a5e7d3c-c140-4e2e-91a1-a212a518adc5/forecast')
+    .query(true)
+    .reply(200, ForecastUpdate)
+    .get('/1/public/device/2a5e7d3c-c140-4e2e-91a1-a212a518adc5/forecast')
+    .times(5)
+    .query(true)
+    .reply(200, Forecast);
 
 Fixtures.Zone = () => {
   let ZoneWateringSchedule = {};
