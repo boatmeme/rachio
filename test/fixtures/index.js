@@ -5,6 +5,8 @@ const { StartOfDay } = require('../../lib/utils');
 const PersonInfo = require('./person_info.json');
 const Person = require('./person.json');
 const CurrentSchedule = require('./current_schedule.json');
+const FlexScheduleRule = require('./flex_schedule_rule.json');
+const ScheduleRule = require('./schedule_rule.json');
 const Forecast = require('./forecast.json');
 const ForecastUpdate = require('./forecast_update.json');
 const Zone = require('./zone.json');
@@ -218,6 +220,38 @@ Fixtures.MultiZone = () => {
       return [204];
     });
 };
+
+Fixtures.ScheduleRule = () => {
+  let enabled = true;
+  let seasonalAdjustment = 0;
+
+  return nock('https://api.rach.io')
+    .persist()
+    .get('/1/public/schedulerule/f887ce96-3103-4774-9de9-6c66a725de18')
+    .reply(() => [200, Object.assign({}, ScheduleRule, { enabled, seasonalAdjustment })])
+    .put('/1/public/schedulerule/skip', { id: 'f887ce96-3103-4774-9de9-6c66a725de18' })
+    .reply(() => {
+      enabled = false;
+      return [204];
+    })
+    .put('/1/public/schedulerule/start', { id: 'f887ce96-3103-4774-9de9-6c66a725de18' })
+    .reply(() => {
+      enabled = true;
+      return [204];
+    })
+    .put('/1/public/schedulerule/seasonal_adjustment', { id: 'f887ce96-3103-4774-9de9-6c66a725de18', adjustment: /[.09]+/ })
+    .reply((uri, body) => {
+      seasonalAdjustment = body.adjustment;
+      return [204];
+    });
+};
+
+Fixtures.FlexScheduleRule = () =>
+  nock('https://api.rach.io')
+    .get('/1/public/flexschedulerule/6ede2d28-6823-48c7-8398-82bb07b979e3')
+    .reply(() => [200, Object.assign({}, FlexScheduleRule, { enabled: true })])
+    .get('/1/public/flexschedulerule/6ede2d28-6823-48c7-8398-82bb07b979e3')
+    .reply(() => [200, Object.assign({}, FlexScheduleRule, { enabled: false })]);
 
 module.exports = {
   setupFixtures,

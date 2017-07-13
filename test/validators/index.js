@@ -1,9 +1,31 @@
-const { Resource, Zone, Event, Forecast, CurrentConditions, CurrentSchedule, Device, Person, MultiZone } = require('../../lib/resource');
+const {
+  Resource,
+  Zone,
+  Event,
+  Forecast,
+  CurrentConditions,
+  CurrentSchedule,
+  Device,
+  Person,
+  MultiZone,
+  ScheduleRule,
+  FlexScheduleRule,
+} = require('../../lib/resource');
 const _ = require('lodash');
 
 exports.validateZone = function validateZone(zone) {
   zone.should.be.an.Object().instanceOf(Zone).and.instanceOf(Resource);
   return zone;
+};
+
+exports.validateScheduleRule = function validateScheduleRule(rule) {
+  rule.should.be.an.Object().instanceOf(ScheduleRule).and.instanceOf(Resource);
+  return rule;
+};
+
+exports.validateFlexScheduleRule = function validateFlexScheduleRule(rule) {
+  rule.should.be.an.Object().instanceOf(FlexScheduleRule).and.instanceOf(Resource);
+  return rule;
 };
 
 exports.validateEvent = function validateEvent(event) {

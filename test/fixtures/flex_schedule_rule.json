@@ -1,0 +1,47 @@
+{
+ "id": "6ede2d28-6823-48c7-8398-82bb07b979e3",
+ "zones": [
+ {
+ "zoneId": "450199ae-f952-469e-9e10-0be81547109b",
+ "zoneNumber": 2,
+ "sortOrder": 1
+ },
+ {
+ "zoneId": "745c6c55-73be-439f-b856-0b5d2cfcc488",
+ "zoneNumber": 3,
+ "sortOrder": 2
+ },
+ {
+ "zoneId": "4d66d57e-b207-462d-bba1-e7e15d61afd9",
+ "zoneNumber": 4,
+ "sortOrder": 3
+ },
+ {
+ "zoneId": "1455bba1-0659-4662-91ff-2c1f1e2e9e01",
+ "zoneNumber": 1,
+ "sortOrder": 0
+ },
+ {
+ "zoneId": "688e07b5-578f-442f-af8c-2b2dcc2dae97",
+ "zoneNumber": 5,
+ "sortOrder": 4
+ },
+ {
+ "zoneId": "91e5c36a-ca18-4118-b288-aba0a8a6fb20",
+ "zoneNumber": 6,
+ "sortOrder": 5
+ }
+ ],
+ "scheduleJobTypes": [
+ "ODD"
+ ],
+ "summary": "Odd days at 3:30 am",
+ "cycleSoak": true,
+ "startDate": -61662358804000,
+ "name": "Flex o' rama",
+ "enabled": true,
+ "totalDuration": 33016,
+ "totalDurationNoCycle": 33016,
+ "externalName": "Flex o' rama",
+ "type": "FLEX"
+ }
