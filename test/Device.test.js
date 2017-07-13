@@ -8,14 +8,12 @@ const {
 } = require('./fixtures');
 const {
   validateArray,
-  validateDevice,
   validateCurrentSchedule,
   validateEvent,
   validateError,
   validateForecast,
   validateCurrentConditions,
   validateZone,
-  validateMultiZone,
 } = require('./validators');
 
 const apiToken = process.env.RACHIO_API_TOKEN || '8e600a4c-0027-4a9a-9bda-dc8d5c90350d';
