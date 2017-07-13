@@ -213,11 +213,11 @@ describe('Rachio', () => {
                 zone.should.have.property('enabled').is.true();
               })));
 
-          it('should get the zone\'s device', () =>
-            client.getZone(deviceZone.id)
-              .then(validateZone)
-              .then(zone => zone.getDevice())
-              .then(validateDevice));
+        it('should get the zone\'s device', () =>
+          client.getZone(deviceZone.id)
+            .then(validateZone)
+            .then(zone => zone.getDevice())
+            .then(validateDevice));
       });
 
       describe('start', () => {
