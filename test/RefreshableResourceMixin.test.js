@@ -19,7 +19,7 @@ describe('RefreshableResourceMixin', () => {
     obj.calls.should.be.eql(3);
     obj.refresh().calls.should.be.eql(6);
   });
-  
+
   it('should throw an error if applied to any class other than a subclass of Resource', () => {
     class RandoClass {
       get() {
