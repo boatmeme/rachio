@@ -67,18 +67,17 @@ describe('Rachio', () => {
   let client;
   let deviceId;
 
-  beforeEach(() => {
-    setupFixtures(Fixtures.Generic)();
-    client = new Rachio(apiToken);
-    return client.getDevices()
-      .then(([device]) => {
-        deviceId = device.id;
-      });
-  });
-
-  afterEach(teardownFixtures);
-
   describe('Person API', () => {
+    before(() => {
+      setupFixtures(Fixtures.Generic)();
+      client = new Rachio(apiToken);
+      return client.getDevices()
+        .then(([device]) => {
+          deviceId = device.id;
+        });
+    });
+    after(teardownFixtures);
+
     describe('getPersonInfo', () => {
       it('should get the currently authenticated user id', () =>
         client.getPersonInfo()
@@ -96,6 +95,15 @@ describe('Rachio', () => {
     });
   });
   describe('Device API', () => {
+    before(() => {
+      setupFixtures(Fixtures.Generic)();
+      client = new Rachio(apiToken);
+      return client.getDevices()
+        .then(([device]) => {
+          deviceId = device.id;
+        });
+    });
+    after(teardownFixtures);
     describe('getDevices', () => {
       it('should get the currently authenticated user\'s devices', () =>
         client.getDevices()
@@ -170,23 +178,26 @@ describe('Rachio', () => {
     });
   });
   describe('Zones API', () => {
-    before(setupFixtures(Fixtures.Zone));
+    let deviceZone;
+    before(() => {
+      setupFixtures(Fixtures.Zone)();
+      return client.getZonesByDevice(deviceId)
+        .then(zones => {
+          deviceZone = zones[2];
+        });
+    });
     after(teardownFixtures);
 
-    describe('getZonesForDevice', () => {
-      it('should get the zones for the specified device', () =>
-        client.getZonesByDevice(deviceId)
-          .then(validateArray(validateZone, 8)));
-
-      describe('Zone', () => {
-        let deviceZone;
-
-        before(() =>
+    describe('RachioClient', () => {
+      describe('getZonesForDevice', () => {
+        it('should get the zones for the specified device', () =>
           client.getZonesByDevice(deviceId)
-            .then(zones => {
-              deviceZone = zones[2];
-            }));
+            .then(validateArray(validateZone, 8)));
+      });
+    });
 
+    describe('Zone', () => {
+      describe('get / refresh', () => {
         it('should get a zone', () =>
           client.getZone(deviceZone.id)
             .then(validateZone));
@@ -201,6 +212,27 @@ describe('Rachio', () => {
                 refreshedZone.should.have.property('enabled').is.false();
                 zone.should.have.property('enabled').is.true();
               })));
+
+          it('should get the zone\'s device', () =>
+            client.getZone(deviceZone.id)
+              .then(validateZone)
+              .then(zone => zone.getDevice())
+              .then(validateDevice));
+      });
+
+      describe('start', () => {
+        it('should start a zone watering', () =>
+          client.getZone(deviceZone.id)
+            .then(validateZone)
+            .then(zone =>
+              zone.isWatering()
+                .then(isWatering => isWatering.should.be.false())
+                .then(() => zone.start())
+                .then(() => zone.isWatering())
+                .then(isWatering => isWatering.should.be.true())
+                .then(() => zone.stop())
+                .then(() => zone.isWatering())
+                .then(isWatering => isWatering.should.be.false())));
       });
     });
   });
