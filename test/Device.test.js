@@ -127,7 +127,18 @@ describe('Device', () => {
   });
 
   describe('Standby', () => {
+    before(setupFixtures(Fixtures.DeviceStandby));
+    after(teardownFixtures);
 
+    describe('standbyOn/Off', () => {
+      it('should report the correct status if a device is in standby', () =>
+        device.standbyOn()
+          .then(() => device.refresh())
+          .then(d => d.should.have.property('enabled').is.false())
+          .then(() => device.standbyOff())
+          .then(() => device.refresh())
+          .then(d => d.should.have.property('enabled').is.true()));
+    });
   });
 
   describe('RainDelay', () => {

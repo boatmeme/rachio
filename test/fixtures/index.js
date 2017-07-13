@@ -115,6 +115,24 @@ Fixtures.DeviceWatering = () => {
     });
 };
 
+Fixtures.DeviceStandby = () => {
+  let enabled = true;
+  return nock('https://api.rach.io')
+    .get('/1/public/device/2a5e7d3c-c140-4e2e-91a1-a212a518adc5')
+    .times(2)
+    .reply(() => ([200, Object.assign({}, Device, { enabled })]))
+    .put('/1/public/device/off', { id: '2a5e7d3c-c140-4e2e-91a1-a212a518adc5' })
+    .reply(() => {
+      enabled = false;
+      return [204];
+    })
+    .put('/1/public/device/on', { id: '2a5e7d3c-c140-4e2e-91a1-a212a518adc5' })
+    .reply(() => {
+      enabled = true;
+      return [204];
+    });
+};
+
 Fixtures.Zone = () => {
   let ZoneWateringSchedule = {};
   return nock('https://api.rach.io')
