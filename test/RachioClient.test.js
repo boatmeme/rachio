@@ -16,6 +16,7 @@ const {
   validateForecast,
   validateCurrentConditions,
   validateZone,
+  validateMultiZone,
 } = require('./validators');
 
 const apiToken = process.env.RACHIO_API_TOKEN || '8e600a4c-0027-4a9a-9bda-dc8d5c90350d';
@@ -143,6 +144,11 @@ describe('Rachio', () => {
           .then(validateArray(validateZone, 8)));
     });
   });
+
+  describe('MultiZone', () => {
+    it('should get a MultiZone instance from the client', () => validateMultiZone(client.multiZone()));
+  });
+
   describe.skip('Webhooks API', () => {
     describe('getWebhookTypes', () => {
       it('should get the available event types for webhooks', () =>

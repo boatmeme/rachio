@@ -1,4 +1,4 @@
-const { Resource, Zone, Event, Forecast, CurrentConditions, CurrentSchedule, Device, Person } = require('../../lib/resource');
+const { Resource, Zone, Event, Forecast, CurrentConditions, CurrentSchedule, Device, Person, MultiZone } = require('../../lib/resource');
 const _ = require('lodash');
 
 exports.validateZone = function validateZone(zone) {
@@ -40,6 +40,10 @@ exports.validateError = function validateError(error) {
 
 exports.validatePerson = function validatePerson(person) {
   person.should.be.an.Object().instanceOf(Person);
+};
+
+exports.validateMultiZone = function validateMultiZone(multi) {
+  multi.should.be.an.Object().instanceOf(MultiZone);
 };
 
 exports.validateArray = function validateArray(validationFn, length) {

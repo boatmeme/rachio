@@ -119,6 +119,39 @@ Fixtures.Zone = () => {
     });
 };
 
+Fixtures.MultiZone = () => {
+  let ZoneWateringSchedule = {};
+  return nock('https://api.rach.io')
+    .get('/1/public/person/info')
+    .times(2)
+    .reply(200, PersonInfo)
+    .get('/1/public/person/c8d10892-fd69-48b3-8743-f111e4392d8a')
+    .times(2)
+    .reply(200, Person)
+    .get('/1/public/device/2a5e7d3c-c140-4e2e-91a1-a212a518adc5')
+    .times(2)
+    .reply(200, Device)
+    .get('/1/public/zone/f0e042bd-7ba1-4aba-bede-6d8b16857d3a')
+    .times(3)
+    .reply(200, Zone)
+    .get('/1/public/device/2a5e7d3c-c140-4e2e-91a1-a212a518adc5/current_schedule')
+    .times(3)
+    .reply(() => ([200, ZoneWateringSchedule]))
+    .put('/1/public/device/stop_water', { id: '2a5e7d3c-c140-4e2e-91a1-a212a518adc5' })
+    .reply(() => {
+      ZoneWateringSchedule = {};
+      return [204];
+    })
+    .put('/1/public/zone/start_multiple', { zones:
+       [{ id: 'f0e042bd-7ba1-4aba-bede-6d8b16857d3a', duration: 60 },
+         { id: '8de4dbf6-7a52-43b0-9c18-7d074b868f67', duration: 120 },
+         { id: '1f3759cf-8722-4331-8859-aef4e328ce51', duration: 180 }] })
+    .reply(() => {
+      ZoneWateringSchedule = CurrentSchedule;
+      return [204];
+    });
+};
+
 module.exports = {
   setupFixtures,
   teardownFixtures,
