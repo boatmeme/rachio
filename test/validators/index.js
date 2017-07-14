@@ -11,7 +11,7 @@ const {
   ScheduleRule,
   FlexScheduleRule,
 } = require('../../lib/resource');
-const _ = require('lodash');
+const { isNumber } = require('../../lib/utils');
 
 exports.validateZone = function validateZone(zone) {
   zone.should.be.an.Object().instanceOf(Zone).and.instanceOf(Resource);
@@ -70,7 +70,7 @@ exports.validateMultiZone = function validateMultiZone(multi) {
 
 exports.validateArray = function validateArray(validationFn, length) {
   return arr => {
-    if (_.isNumber(length)) {
+    if (isNumber(length)) {
       arr.should.be.an.Array().of.length(length);
     } else {
       arr.should.be.an.Array();

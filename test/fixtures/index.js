@@ -1,5 +1,5 @@
 const nock = require('nock'); // eslint-disable-line
-const _ = require('lodash');
+const { map, reduce, last } = require('../../lib/utils');
 
 const { StartOfDay } = require('../../lib/utils');
 const PersonInfo = require('./person_info.json');
@@ -22,7 +22,7 @@ const OffsetForecast = data => {
     current: Object.assign({},
       data.current,
       { localizedTimeStamp: data.current.localizedTimeStamp + forecastDateOffset }),
-    forecast: _.map(data.forecast,
+    forecast: map(data.forecast,
       f => Object.assign({},
         f,
         { localizedTimeStamp: f.localizedTimeStamp + forecastDateOffset })),
@@ -33,7 +33,7 @@ OffsetForecast(Forecast);
 OffsetForecast(ForecastUpdate);
 
 const getQuery = (uri = '') =>
-  _.reduce((_.last(uri.split('?')) || '').split('&'),
+  reduce((last(uri.split('?')) || '').split('&'),
     (acc, pair) => {
       const [key, val] = pair.split('=');
       return key && val ? Object.assign(acc, { [key]: val }) : acc;
