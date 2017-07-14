@@ -253,6 +253,11 @@ Fixtures.FlexScheduleRule = () =>
     .get('/1/public/flexschedulerule/6ede2d28-6823-48c7-8398-82bb07b979e3')
     .reply(() => [200, Object.assign({}, FlexScheduleRule, { enabled: false })]);
 
+Fixtures.Error = () =>
+  nock('https://api.rach.io')
+    .get('/1/public/device/2a5e7d3c-c140-4e2e-91a1-a212a518adc5')
+    .reply(() => [404, { error: 'Missing data', code: 301 }]);
+
 module.exports = {
   setupFixtures,
   teardownFixtures,

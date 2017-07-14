@@ -149,20 +149,12 @@ describe('Rachio', () => {
     it('should get a MultiZone instance from the client', () => validateMultiZone(client.multiZone()));
   });
 
-  describe.skip('Webhooks API', () => {
-    describe('getWebhookTypes', () => {
-      it('should get the available event types for webhooks', () =>
-        client.getWebhookTypes()
-          .then(eventTypes => {
-            eventTypes.should.be.an.Array();
-          }));
-    });
-    describe('getWebhooksByDevice', () => {
-      it('should get the webhooks for the specified device', () =>
-        client.getWebhooksByDevice(deviceId)
-          .then(webhooks => {
-            webhooks.should.be.an.Array();
-          }));
-    });
+  describe('Errors', () => {
+    before(setupFixtures(Fixtures.Error));
+    after(teardownFixtures);
+
+    it('should throw an error if status code >= 400 returned from API', () =>
+      client.getZonesByDevice(deviceId)
+        .catch(validateError));
   });
 });
