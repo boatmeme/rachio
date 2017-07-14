@@ -1,4 +1,5 @@
 const should = require('should');
+const _ = require('lodash');
 const Rachio = require('../');
 const {
   setupFixtures,
@@ -37,7 +38,7 @@ describe('Resource', () => {
       const pojo = device.toPlainObject();
       pojo.should.be.an.Object();
       pojo.should.not.be.an.instanceOf(Resource).and.not.an.instanceOf(Device);
-      Object.values(pojo).forEach(v => v.should.not.be.an.instanceOf(Function));
+      _.values(pojo, v => v.should.not.be.an.instanceOf(Function));
       Object.keys(pojo).forEach(k => k.startsWith('_').should.be.false());
     });
   });
@@ -53,7 +54,7 @@ describe('Resource', () => {
       json.should.be.a.String();
       const pojo = JSON.parse(json);
       pojo.should.be.an.Object();
-      Object.values(pojo).forEach(v => v.should.not.be.an.instanceOf(Function));
+      _.values(pojo, v => v.should.not.be.an.instanceOf(Function));
       Object.keys(pojo).forEach(k => k.startsWith('_').should.be.false());
     });
   });
