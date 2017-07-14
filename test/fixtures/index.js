@@ -40,8 +40,8 @@ const getQuery = (uri = '') =>
     },
     {});
 
-const filterByBounds = (arr, prop, lower, upper) =>
-  _.filter(arr, o => o[prop] >= lower && o[prop] <= upper);
+const filterByBounds = (arr = [], prop, lower, upper) =>
+  arr.filter(o => o[prop] >= lower && o[prop] <= upper);
 
 const setupFixtures = fixture => () => {
   nock.disableNetConnect();
