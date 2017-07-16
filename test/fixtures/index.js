@@ -284,7 +284,11 @@ Fixtures.FlexScheduleRule = () =>
 Fixtures.Error = () =>
   nock('https://api.rach.io')
     .get('/1/public/device/2a5e7d3c-c140-4e2e-91a1-a212a518adc5')
-    .reply(() => [404, { error: 'Missing data', code: 301 }]);
+    .reply(() => [404, { error: 'Not Found', code: 404 }])
+    .get('/1/public/device/2a5e7d3c-c140-4e2e-91a1-a212a518adc5')
+    .reply(() => [401, { errors: [{ message: 'Unauthorized' }] }])
+    .get('/1/public/device/2a5e7d3c-c140-4e2e-91a1-a212a518adc5')
+    .replyWithError({ message: 'something awful happened', code: 'AWFUL_ERROR' });
 
 module.exports = {
   setupFixtures,

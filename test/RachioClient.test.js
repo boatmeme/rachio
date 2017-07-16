@@ -156,5 +156,13 @@ describe('Rachio', () => {
     it('should throw an error if status code >= 400 returned from API', () =>
       client.getZonesByDevice(deviceId)
         .catch(validateError));
+
+    it('should throw an authentication error', () =>
+      client.getZonesByDevice(deviceId)
+        .catch(validateError));
+
+    it('should throw an HTTP client error', () =>
+      client.getZonesByDevice(deviceId)
+        .catch(validateError));
   });
 });
