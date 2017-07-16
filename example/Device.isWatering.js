@@ -8,4 +8,5 @@ client.getDevices()
   .then(waterStatuses =>
     waterStatuses.forEach(isWatering => console.log( isWatering
       ? "The lunatic is on the grass"
-      : "The lunatic is in my head")));
+      : "The lunatic is in my head")))
+  .catch(console.error);

@@ -7,4 +7,5 @@ client.getDevices()
   .then(devices => Promise.all(devices.map(d => d.getZones())))
   .then(zonesByDevice =>
     zonesByDevice.forEach(zones =>
-      zones.forEach(z => console.log(`${z.name} : ${z.zoneNumber} : ${z.enabled} : ${z.id}`))));
+      zones.forEach(z => console.log(`${z.name} : ${z.zoneNumber} : ${z.enabled} : ${z.id}`))))
+  .catch(console.error);

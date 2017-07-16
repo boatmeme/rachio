@@ -183,7 +183,29 @@ client.getDevice(deviceId)
 The lunatic is on the grass
 ```
 
-## getActiveZone()
+## stopWater ( )
+##### returns
+ - ```true```
+
+##### Use Case
+- Tell the device to halt any currently running watering activity
+
+##### Example
+###### code
+```
+const deviceId = '2a5e7d3c-c140-4e2e-91a1-a212a518adc5';
+
+client.getDevice(deviceId)
+  .then(device => device.stopWater())
+  .then(success => console.log(success));
+```
+
+###### output
+```
+true
+```
+
+## getActiveZone ( )
 ##### returns
  - a ```Promise``` to return a ```Zone``` objects that is currently watering.
  - ```false``` if no zone is currently watering
@@ -208,68 +230,204 @@ client.getDevice(deviceId)
 The lunatic is in Zone 5 - Back Door
 ```
 
-## getDeviceEvents ( device_id, startTime, endTime [, filters] )
-Returns an array of all events from the specified *device_id*, between the _startTime_ and _endTime_.
-Both the _startTime_ and _endTime_ parameters are numbers representing the desired times as Unix epoch in milliseconds.
+## standbyOn ( )
+##### returns
+ - ```true```
 
-Optionally, you can specify a the parameter _filters_, an Object used to filter the results according to its property names and values.
-
-##### Example Code
-```
-rachio.getDeviceEvents( 'my-device-id', 1497877200000, 1497963600000, { category: "DEVICE" } )
-  .then( events => {
-      // ...do something with the events...
-  });
-```
-##### Example Response
-```
-[ { createDate: 1497230972140,
-    lastUpdateDate: 1497230972140,
-    id: 'some-event-id1',
-    deviceId: 'some-device-id',
-    category: 'DEVICE',
-    type: 'RAIN_DELAY',
-    eventDate: 1497230972140,
-    eventDatas: [ [Object], [Object], [Object] ],
-    iconUrl: 'http://media.rach.io/icons/api/rain-delay-activated.png',
-    summary: 'Rain delay active until Monday, June 12 08:26 PM',
-    subType: 'RAIN_DELAY_ON',
-    hidden: false,
-    topic: 'DEVICE' },
-  { createDate: 1497220229669,
-    lastUpdateDate: 1497220229669,
-    id: 'some-event-id2',
-    deviceId: 'some-device-id',
-    category: 'DEVICE',
-    type: 'DEVICE_STATUS',
-    eventDate: 1497220229669,
-    eventDatas: [ [Object] ],
-    iconUrl: 'http://media.rach.io/icons/api/power-cycle.png',
-    summary: 'Device status power cycle',
-    subType: 'COLD_REBOOT',
-    hidden: false,
-    topic: 'DEVICE' } ]
-```
-
-## getDeviceCurrentSchedule ( device_id )
+##### Use Case
+- Tell the device to stand-by and cease running any current or future scheduled activity
 
 ##### Example
+###### code
+```
+const deviceId = '2a5e7d3c-c140-4e2e-91a1-a212a518adc5';
 
-## getDeviceCurrentConditions ( device_id )
+client.getDevice(deviceId)
+  .then(device => device.standbyOn())
+  .then(success => console.log(success));
+```
+
+###### output
+```
+true
+```
+
+## standbyOff ( )
+##### returns
+ - ```true```
+
+##### Use Case
+- Tell the device to resume all scheduled activity, if it was previously in stand-by mode
 
 ##### Example
+###### code
+```
+const deviceId = '2a5e7d3c-c140-4e2e-91a1-a212a518adc5';
 
-## getDeviceForecast ( device_id [, startTime, endTime, units] )
+client.getDevice(deviceId)
+  .then(device => device.standbyOff())
+  .then(success => console.log(success));
+```
+
+###### output
+```
+true
+```
+
+## rainDelay (durationInSeconds)
+##### parameters
+- **durationInSeconds** (_default = 1 day_), a ```Number``` representing the number of seconds from now you would like the rain delay to persist
+##### returns
+ - ```true```
+
+##### Use Case
+- Set a rain delay for the next 8 hours
 
 ##### Example
+###### code
+```
+const deviceId = '2a5e7d3c-c140-4e2e-91a1-a212a518adc5';
+const duration = 28800; // 8 hours, in seconds
 
-## getDeviceForecastToday ( device_id )
+client.getDevice(deviceId)
+  .then(device => device.rainDelay(duration))
+  .then(success => console.log(success));
+```
+
+###### output
+```
+true
+```
+
+## rainDelayCancel ()
+##### returns
+ - ```true```
+
+##### Use Case
+- Cancel a previously set rain delay
 
 ##### Example
+###### code
+```
+const deviceId = '2a5e7d3c-c140-4e2e-91a1-a212a518adc5';
 
-## getZonesByDevice ( device_id )
+client.getDevice(deviceId)
+  .then(device => device.rainDelayCancel())
+  .then(success => console.log(success));
+```
 
-Returns an array of zones for the specified *device_id*
+###### output
+```
+true
+```
+
+#### Tip
+- This is equivalent to calling ```Device.rainDelay(0)```
+
+
+## getEvents (startTime, endTime, filters)
+##### parameters
+- **startTime** (_optional_), a ```Number``` representing the Unix time in milliseconds for which you would like to start your event filter
+  - Cannot be a number < 28 days from present
+- **endTime** (_optional_), a ```Number``` representing the Unix time in milliseconds for which you would like to end your event filter
+- **filters** (_optional_), an ```Object``` whose properties and values you would like to use as a filter for events.
+
+##### returns
+ - a ```Promise``` to return an ```Array``` of device ```Event``` objects that match your specified filters
+
+##### Use Case
+- Show me every time my ```Device``` has set a rain delay in the past week
+
+##### Example
+###### code
+```
+const deviceId = '2a5e7d3c-c140-4e2e-91a1-a212a518adc5';
+const endTime = Date.now();
+const startTime = endTime - 604800000; // 1 Week in millis
+const filters = {
+  category: 'DEVICE',
+  type: 'RAIN_DELAY',
+  subType: 'RAIN_DELAY_ON'
+};
+
+client.getDevice(deviceId)
+  .then(device => device.getEvents(startTime, endTime, filters))
+  .then(events => events.forEach(e => console.log(e.toPlainObject())));
+```
+..._Looking outside, I see zone 5 watering_...
+###### output
+```
+...
+{ createDate: 1499458409090,
+  lastUpdateDate: 1499458409090,
+  id: '15117336-668c-4f74-a162-efc9c36f95ea',
+  deviceId: '2a5e7d3c-c140-4e2e-91a1-a212a518adc5',
+  category: 'DEVICE',
+  type: 'RAIN_DELAY',
+  eventDate: 1499458409090,
+...
+  iconUrl: 'http://media.rach.io/icons/api/rain-delay-activated.png',
+  summary: 'Rain delay active until Saturday, July 8 02:13 PM',
+  subType: 'RAIN_DELAY_ON',
+  hidden: false,
+  topic: 'DEVICE' }
+...
+```
+
+#### Tip
+- I haven't seen great documentation on the possible event types / values. The best way to figure out what's available to you with Events is to just call ```Device.getEvents()``` and explore the data returned from your device.
+
+## getEvents (startTime, endTime, filters)
+##### parameters
+- **startTime** (_optional_), a ```Number``` representing the Unix time in milliseconds for which you would like to start your event filter
+  - Cannot be a number < 28 days from present
+- **endTime** (_optional_), a ```Number``` representing the Unix time in milliseconds for which you would like to end your event filter
+- **filters** (_optional_), an ```Object``` whose properties and values you would like to use as a filter for events.
+
+##### returns
+ - a ```Promise``` to return an ```Array``` of device ```Event``` objects that match your specified filters
+
+##### Use Case
+- Show me every time my ```Device``` has set a rain delay in the past week
+
+##### Example
+###### code
+```
+const deviceId = '2a5e7d3c-c140-4e2e-91a1-a212a518adc5';
+const endTime = Date.now();
+const startTime = endTime - 604800000; // 1 Week in millis
+const filters = {
+  category: 'DEVICE',
+  type: 'RAIN_DELAY',
+  subType: 'RAIN_DELAY_ON'
+};
+
+client.getDevice(deviceId)
+  .then(device => device.getEvents(startTime, endTime, filters))
+  .then(events => events.forEach(e => console.log(e.toPlainObject())));
+```
+..._Looking outside, I see zone 5 watering_...
+###### output
+```
+...
+{ createDate: 1499458409090,
+  lastUpdateDate: 1499458409090,
+  id: '15117336-668c-4f74-a162-efc9c36f95ea',
+  deviceId: '2a5e7d3c-c140-4e2e-91a1-a212a518adc5',
+  category: 'DEVICE',
+  type: 'RAIN_DELAY',
+  eventDate: 1499458409090,
+...
+  iconUrl: 'http://media.rach.io/icons/api/rain-delay-activated.png',
+  summary: 'Rain delay active until Saturday, July 8 02:13 PM',
+  subType: 'RAIN_DELAY_ON',
+  hidden: false,
+  topic: 'DEVICE' }
+...
+```
+
+#### Tip
+- I haven't seen great documentation on the possible event types / values. The best way to figure out what's available to you with Events is to just call ```Device.getEvents()``` and explore the data returned from your device.
 
 ##### Example
 
