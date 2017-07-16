@@ -288,7 +288,9 @@ Fixtures.Error = () =>
     .get('/1/public/device/2a5e7d3c-c140-4e2e-91a1-a212a518adc5')
     .reply(() => [401, { errors: [{ message: 'Unauthorized' }] }])
     .get('/1/public/device/2a5e7d3c-c140-4e2e-91a1-a212a518adc5')
-    .replyWithError({ message: 'something awful happened', code: 'AWFUL_ERROR' });
+    .replyWithError({ message: 'something awful happened', code: 'AWFUL_ERROR' })
+    .get('/1/public/device/2a5e7d3c-c140-4e2e-91a1-a212a518adc5')
+    .reply(500);
 
 module.exports = {
   setupFixtures,

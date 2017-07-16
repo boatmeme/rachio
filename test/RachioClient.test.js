@@ -164,5 +164,9 @@ describe('Rachio', () => {
     it('should throw an HTTP client error', () =>
       client.getZonesByDevice(deviceId)
         .catch(validateError));
+
+    it('should throw an unknown error if no message provided', () =>
+      client.getZonesByDevice(deviceId)
+        .catch(validateError));
   });
 });
