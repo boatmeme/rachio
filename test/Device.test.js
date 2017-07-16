@@ -141,6 +141,44 @@ describe('Device', () => {
     });
   });
 
+  describe('Rain Forecast Functions', () => {
+    describe('isRaining', () => {
+      before(setupFixtures(Fixtures.IsRaining));
+      after(teardownFixtures);
+
+      it('should return boolean if currently raining (default threshold)', () =>
+        device.isRaining()
+          .then(isRaining => isRaining.should.be.false())
+          .then(() => device.isRaining())
+          .then(isRaining => isRaining.should.be.true()));
+
+      it('should return boolean if currently raining (user-defined threshold)', () =>
+        device.isRaining(0.75)
+          .then(isRaining => isRaining.should.be.false())
+          .then(() => device.isRaining(0.75))
+          .then(isRaining => isRaining.should.be.true()));
+    });
+
+    describe.only('getForecastNextRain', () => {
+      before(setupFixtures(Fixtures.ForecastNextRain));
+      after(teardownFixtures);
+
+      it('should return Forecast if rain in the forecast (default threshold)', () =>
+        device.getForecastNextRain()
+          .then(validateForecast)
+          .then(nextRainDay => nextRainDay.should.have.property('precipProbability').is.Number().aboveOrEqual(0.25)));
+
+      it('should return Forecast if rain in the forecast (user-defined threshold)', () =>
+        device.getForecastNextRain(0.35)
+          .then(validateForecast)
+          .then(nextRainDay => nextRainDay.should.have.property('precipProbability').is.Number().aboveOrEqual(0.35)));
+
+      it('should return false if no rain in the forecast >= threshold', () =>
+        device.getForecastNextRain(0.9)
+          .then(nextRainDay => nextRainDay.should.be.false()));
+    });
+  });
+
   describe('RainDelay', () => {
     before(setupFixtures(Fixtures.RainDelay));
     after(teardownFixtures);

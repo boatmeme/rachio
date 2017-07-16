@@ -152,6 +152,34 @@ Fixtures.RainDelay = () => {
     });
 };
 
+Fixtures.IsRaining = () => {
+  const setProbability = precipProbability => Object.assign(
+    {},
+    Forecast,
+    { current: Object.assign({}, Forecast.current, { precipProbability }) });
+
+  return nock('https://api.rach.io')
+    .get('/1/public/device/2a5e7d3c-c140-4e2e-91a1-a212a518adc5/forecast')
+    .query(true)
+    .reply(() => ([200, setProbability(0.98)]))
+    .get('/1/public/device/2a5e7d3c-c140-4e2e-91a1-a212a518adc5/forecast')
+    .query(true)
+    .reply(() => ([200, setProbability(0.99)]))
+    .get('/1/public/device/2a5e7d3c-c140-4e2e-91a1-a212a518adc5/forecast')
+    .query(true)
+    .reply(() => ([200, setProbability(0.74)]))
+    .get('/1/public/device/2a5e7d3c-c140-4e2e-91a1-a212a518adc5/forecast')
+    .query(true)
+    .reply(() => ([200, setProbability(1)]));
+};
+
+Fixtures.ForecastNextRain = () =>
+  nock('https://api.rach.io')
+    .persist()
+    .get('/1/public/device/2a5e7d3c-c140-4e2e-91a1-a212a518adc5/forecast')
+    .query(true)
+    .reply(200, Forecast);
+
 Fixtures.Zone = () => {
   let ZoneWateringSchedule = {};
   return nock('https://api.rach.io')
