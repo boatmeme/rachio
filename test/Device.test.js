@@ -159,7 +159,7 @@ describe('Device', () => {
           .then(isRaining => isRaining.should.be.true()));
     });
 
-    describe.only('getForecastNextRain', () => {
+    describe('getForecastNextRain', () => {
       before(setupFixtures(Fixtures.ForecastNextRain));
       after(teardownFixtures);
 
