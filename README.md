@@ -1,6 +1,8 @@
-# rachio [![npm version](https://badge.fury.io/js/rachio.svg)](https://badge.fury.io/js/rachio) [![Build Status](https://travis-ci.org/boatmeme/rachio.svg?branch=master)](https://travis-ci.org/boatmeme/rachio) [![codecov](https://img.shields.io/codecov/c/github/boatmeme/rachio.svg)](https://codecov.io/gh/boatmeme/rachio) [![Beerpay](https://beerpay.io/boatmeme/rachio/make-wish.svg?style=flat)](https://beerpay.io/boatmeme/rachio?focus=wish)
+# rachio
 
 Node.js client for the Rachio Smart Sprinkler controller
+
+[![npm version](https://badge.fury.io/js/rachio.svg)](https://badge.fury.io/js/rachio) [![Build Status](https://travis-ci.org/boatmeme/rachio.svg?branch=master)](https://travis-ci.org/boatmeme/rachio) [![codecov](https://img.shields.io/codecov/c/github/boatmeme/rachio.svg)](https://codecov.io/gh/boatmeme/rachio) [![Beerpay](https://beerpay.io/boatmeme/rachio/make-wish.svg?style=flat)](https://beerpay.io/boatmeme/rachio?focus=wish)
 
 ---
 ## Requirements
