@@ -1,7 +1,11 @@
 # Changelog
 ## [Unreleased]
 
-## [0.1.0] - 2017-07-13
+## [0.1.1] - 2017-07-17
+### Added
+- Removed extraneous files from npm distribution
+
+## [0.1.0] - 2017-07-17
 ### Added
 - Implemented an SDK-style API
 - All tests are backed by a mocked API (nock)

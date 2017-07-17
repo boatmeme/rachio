@@ -1,3 +1,7 @@
 example
 coverage
 test
+.travis.yml
+.npmignore
+.eslintrc
+.eslintignore
