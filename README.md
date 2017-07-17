@@ -121,9 +121,9 @@ Get all ```Zone``` objects for the specified device
 Gets the ```Zone``` specified by the zoneId
 #### multiZone()
 Gets a new instance of ```MultiZone``` for operations across multiple zones
-### getScheduleRule(scheduleRuleId)
+#### getScheduleRule(scheduleRuleId)
 Gets the ```ScheduleRule``` for the given id
-### getFlexScheduleRule(flexScheduleRuleId)
+#### getFlexScheduleRule(flexScheduleRuleId)
 Gets the ```FlexScheduleRule``` for the given id
 
 # Device
@@ -160,8 +160,8 @@ Zone 8 : 8 : false : d8bd46d1-77ab-4c15-8aa1-b5a529897b37
 
 ## isWatering ( )
 ##### returns
- - ```true``` if the device is currently watering
- - ```false``` if the device is not currently watering
+ - A ```Promise``` resolving to ```true``` if the device is currently watering
+ - A ```Promise``` resolving to ```false``` if the device is not currently watering
 
 ##### Use Case
 - Are any of the zones on the device currently watering?
@@ -232,7 +232,7 @@ The lunatic is in Zone 5 - Back Door
 
 ## standbyOn ( )
 ##### returns
- - ```true```
+- a ```Promise``` that resolves to a ```Boolean``` dependent on the success of the operation
 
 ##### Use Case
 - Tell the device to stand-by and cease running any current or future scheduled activity
@@ -254,7 +254,7 @@ true
 
 ## standbyOff ( )
 ##### returns
- - ```true```
+- a ```Promise``` that resolves to a ```Boolean``` dependent on the success of the operation
 
 ##### Use Case
 - Tell the device to resume all scheduled activity, if it was previously in stand-by mode
@@ -278,7 +278,7 @@ true
 ##### parameters
 - **durationInSeconds** (_default = 1 day_), a ```Number``` representing the number of seconds from now you would like the rain delay to persist
 ##### returns
- - ```true```
+- a ```Promise``` that resolves to a ```Boolean``` dependent on the success of the operation
 
 ##### Use Case
 - Set a rain delay for the next 8 hours
@@ -301,7 +301,7 @@ true
 
 ## rainDelayCancel ()
 ##### returns
- - ```true```
+- a ```Promise``` that resolves to a ```Boolean``` dependent on the success of the operation
 
 ##### Use Case
 - Cancel a previously set rain delay
@@ -377,59 +377,236 @@ client.getDevice(deviceId)
 #### Tip
 - I haven't seen great documentation on the possible event types / values. The best way to figure out what's available to you with Events is to just call ```Device.getEvents()``` and explore the data returned from your device.
 
-## getEvents (startTime, endTime, filters)
+## getForecast (startTime, endTime, filters)
 ##### parameters
-- **startTime** (_optional_), a ```Number``` representing the Unix time in milliseconds for which you would like to start your event filter
-  - Cannot be a number < 28 days from present
-- **endTime** (_optional_), a ```Number``` representing the Unix time in milliseconds for which you would like to end your event filter
-- **filters** (_optional_), an ```Object``` whose properties and values you would like to use as a filter for events.
+- **startTime** (_optional_), a ```Number``` representing the lower-bound Unix time in milliseconds for which you would like to fetch the forecasts. _Rounds down to 00:00 of the day represented by the timestamp_
+- **endTime** (_optional_), a ```Number``` representing the upper-bound Unix time in milliseconds for which you would like to fetch the forecasts. _Rounds up to 23:59 of the day represented by the timestamp_
+- **units** (_defaults to "US"_), a ```String``` with the value of ```US``` or ```METRIC```, determining the forecast data representation
 
 ##### returns
- - a ```Promise``` to return an ```Array``` of device ```Event``` objects that match your specified filters
+ - a ```Promise``` to return an ```Array``` of device ```Forecast``` objects that match your specified parameters
 
 ##### Use Case
-- Show me every time my ```Device``` has set a rain delay in the past week
+- See the next 3 days of forecast data for your device
 
 ##### Example
 ###### code
 ```
 const deviceId = '2a5e7d3c-c140-4e2e-91a1-a212a518adc5';
-const endTime = Date.now();
-const startTime = endTime - 604800000; // 1 Week in millis
-const filters = {
-  category: 'DEVICE',
-  type: 'RAIN_DELAY',
-  subType: 'RAIN_DELAY_ON'
-};
+const startTime = Date.now();
+const endTime = startTime + 259200000; // 3 days in millis
 
 client.getDevice(deviceId)
-  .then(device => device.getEvents(startTime, endTime, filters))
-  .then(events => events.forEach(e => console.log(e.toPlainObject())));
+  .then(device => device.getForecast(startTime, endTime))
+  .then(forecasts => forecasts.forEach(f => console.log(f.toPlainObject())));
 ```
-..._Looking outside, I see zone 5 watering_...
 ###### output
 ```
 ...
-{ createDate: 1499458409090,
-  lastUpdateDate: 1499458409090,
-  id: '15117336-668c-4f74-a162-efc9c36f95ea',
-  deviceId: '2a5e7d3c-c140-4e2e-91a1-a212a518adc5',
-  category: 'DEVICE',
-  type: 'RAIN_DELAY',
-  eventDate: 1499458409090,
-...
-  iconUrl: 'http://media.rach.io/icons/api/rain-delay-activated.png',
-  summary: 'Rain delay active until Saturday, July 8 02:13 PM',
-  subType: 'RAIN_DELAY_ON',
-  hidden: false,
-  topic: 'DEVICE' }
+{ localizedTimeStamp: 1500296400000,
+  precipIntensity: 0,
+  precipProbability: 0.1,
+  temperatureMin: 64.4,
+  temperatureMax: 91.4,
+  windSpeed: 4.34,
+  humidity: 0.55,
+  cloudCover: 0.31,
+  dewPoint: 51.8,
+  weatherType: 'partly-cloudy-day',
+  unitType: 'US',
+  weatherSummary: 'Partly Cloudy with Isolated Storms',
+  iconUrl: 'http://media.rach.io/images/weather/v2/active_partly_cloudy_day_2x.png',
+  icons: {},
+  calculatedPrecip: 0,
+  prettyTime: '2017-07-17T13:00:00Z',
+  time: 1500296400 }
 ...
 ```
 
 #### Tip
-- I haven't seen great documentation on the possible event types / values. The best way to figure out what's available to you with Events is to just call ```Device.getEvents()``` and explore the data returned from your device.
+- When called with no parameters, ```Device.getForecast()``` will return the next 14 days of ```Forecast```s
+
+## getForecastToday (units)
+##### parameters
+- **units** (_defaults to "US"_), a ```String``` with the value of ```US``` or ```METRIC```, determining the forecast data representation
+
+##### returns
+ - a ```Promise``` to return a ```Forecast``` object for today
+
+## getForecastTomorrow (units)
+##### parameters
+- **units** (_defaults to "US"_), a ```String``` with the value of ```US``` or ```METRIC```, determining the forecast data representation
+
+##### returns
+- a ```Promise``` to return a ```Forecast``` object for tomorrow
+
+## getForecastNextRain (probabilityThreshold, units)
+##### parameters
+- **probabilityThreshold** (_defaults to 0.25_), a ```Number``` representing the probability threshold beyond which to classify a Forecast as "rainy"
+- **units** (_defaults to "US"_), a ```String``` with the value of ```US``` or ```METRIC```, determining the forecast data representation
+
+##### returns
+ - a ```Promise``` to return the earliest ```Forecast``` object that it is projected to rain within the next 14 days
+
+
+## getForecastTomorrow (units)
+##### parameters
+- **units** (_defaults to "US"_), a ```String``` with the value of ```US``` or ```METRIC```, determining the forecast data representation
+
+##### returns
+- a ```Promise``` to return a ```Forecast``` object for tomorrow
+
+# Zone
+
+## getDevice ( )
+##### returns
+ - a ```Promise``` to return the parent ```Device``` to which this zone belongs
+
+##### Use Case
+- I need to get from ```Zone``` objects, back to ```Device``` objects
 
 ##### Example
+###### code
+```
+const zoneId = 'f0e042bd-7ba1-4aba-bede-6d8b16857d3a';
+
+client.getZone(zoneId)
+  .then(zone => device.getDevice())
+  .then(device => console.log(`${d.name} : ${d.model} : ${d.id}`));
+```
+
+###### output
+```
+Rachio-Garage : 8ZR2ULW : 2a5e7d3c-c140-4e2e-91a1-a212a518adc5
+```
+
+## isWatering ( )
+##### returns
+ - a ```Promise``` to return a ```Boolean```, ```true``` if the zone is currently watering, ```false``` otherwise
+
+##### Use Case
+- Tell me if a specific zone is watering.
+
+##### Example
+###### code
+```
+const deviceId = '2a5e7d3c-c140-4e2e-91a1-a212a518adc5';
+
+client.getDevice(deviceId)
+  .then(device => device.getZones())
+  .then([zone1, zone2, ...rest] => zone2.isWatering());
+  .then(console.log);
+```
+I look out the window and see zone 2 watering...
+###### output
+```
+true
+```
+
+## start (durationInSeconds)
+##### parameters
+- **durationInSeconds** (_defaults to 60_), a ```Number``` representing the minutes that this zone should water, beginning now.
+
+##### returns
+ - a ```Promise``` that resolves to a ```Boolean``` dependent on the success of the operation
+
+##### Use Case
+- Start a zone watering, right now
+
+##### Example
+###### code
+```
+const zoneId = 'f0e042bd-7ba1-4aba-bede-6d8b16857d3a';
+const durationInSeconds = 300;
+
+client.getZone(zoneId)
+  .then(zone => zone.start(durationInSeconds))
+  .then(console.log);
+```
+###### output
+```
+true
+```
+
+## stop ()
+##### returns
+ - a ```Promise``` that resolves to a ```Boolean``` dependent on the success of the operation
+
+##### Use Case
+- Stop a zone that is currently watering
+
+##### Example
+###### code
+```
+const zoneId = 'f0e042bd-7ba1-4aba-bede-6d8b16857d3a';
+
+client.getZone(zoneId)
+  .then(zone => zone.stop())
+  .then(console.log);
+```
+###### output
+```
+true
+```
+
+#### Tip
+- This is the same as calling ```Device.stopWater()```, and as such it will also stop all other zones that may be currently watering or were scheduled for a manual run (i.e., from a MultiZone.start())
+
+# MultiZone
+
+This class is used for operations that span multiple zones such as manually starting one or more zones for immediate watering. The best way to work with this class is to first obtain an instance from the ```RachioClient``` as here:
+
+```
+...
+const multi = client.multiZone();
+...
+```
+
+_Note that this function is synchronous and does not return a ```Promise```_
+
+## add (zone, durationInSeconds )
+##### parameters
+- **zone**, a ```Zone``` - or ```Object``` with a property ```id``` - representing the zone you would like to add to the multi zone operation
+- **durationInSeconds** (_defaults to 60_), a ```Number``` representing the minutes that this zone should water, beginning now.
+
+##### returns
+ - a ```MultiZone``` itself, allowing you to chain multiple ```add()``` calls together to compose your multi zone operation
+  - _Note that this function is synchronous and does not return a ```Promise```_
+
+##### Use Case
+- see ```MultiZone.start()``` below
+
+##### Example
+- see ```MultiZone.start()``` below
+
+## start ()
+##### returns
+ - A ```Promise``` resolving to ```true``` if the operation is successful
+
+##### Use Case
+- I want to water all of the zones on my device, immediately, for 5 minutes each
+
+##### Example
+###### code
+```
+const deviceId = '2a5e7d3c-c140-4e2e-91a1-a212a518adc5';
+const durationInSeconds = 300;
+
+client.getDevice(deviceId)
+  .then(device => device.getZones())
+  .then(zones => zones.reduce((multi, zone) => multi.add(zone, durationInSeconds), client.multiZone()))
+  .then(multi => multi.start())
+  .then(console.log);
+```
+###### output
+```
+true
+// Looking out my window, I notice each of the zones watering for 5 minutes, in numerical order
+```
+
+# ScheduleRule
+
+TODO: Documentation
 
 ## Development
 
