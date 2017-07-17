@@ -1,9 +1,14 @@
 # Changelog
 ## [Unreleased]
-- Started documentation
-- Implemented many GET endpoints
-- Implemented integration Tests
-- Imported eslint dependencies, refactored to conform to eslint rules
+
+## [0.1.0] - 2017-07-13
+### Added
+- Implemented an SDK-style API
+- All tests are backed by a mocked API (nock)
+  - 100% Code Coverage
+- Continuous Integration via Travis
+- Documentation
+- First Usable Release published to npm
 
 ## 0.0.1 - 2017-06-16
 ### Added
@@ -12,4 +17,5 @@
 - MIT License
 - package.json
 
-[Unreleased]: https://github.com/boatmeme/rachio/compare/v0.0.1...HEAD
+[0.1.0]: https://github.com/boatmeme/rachio/compare/v0.1.0...v0.0.1
+[Unreleased]: https://github.com/boatmeme/rachio/compare/v0.1.0...HEAD

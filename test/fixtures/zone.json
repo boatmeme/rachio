@@ -1,0 +1,62 @@
+{
+  "id": "f0e042bd-7ba1-4aba-bede-6d8b16857d3a",
+  "zoneNumber": 3,
+  "name": "Zone 3 - Garage Front",
+  "enabled": true,
+  "customNozzle": {
+    "name": "Fixed Spray Head",
+    "imageUrl": "https://s3-us-west-2.amazonaws.com/rachio-api-icons/nozzle/fixed_spray.png",
+    "category": "FIXED_SPRAY_HEAD",
+    "inchesPerHour": 1.5
+  },
+  "customSoil": {
+    "createDate": 1496605341950,
+    "lastUpdateDate": 1496605341950,
+    "id": "799fcc34-d93a-489b-964a-9b5e9f5deb7a",
+    "name": "Clay Loam",
+    "imageUrl": "https://s3-us-west-2.amazonaws.com/rachio-api-icons/soil/clay_loam.png",
+    "category": "LOAM",
+    "infiltrationRate": 0.2,
+    "editable": false,
+    "percentAvailableWater": 0.56
+  },
+  "customSlope": {
+    "name": "Slight",
+    "imageUrl": "https://s3-us-west-2.amazonaws.com/rachio-api-icons/slope/slight.png",
+    "variance": "FOUR_SIX",
+    "sortOrder": 0
+  },
+  "customCrop": {
+    "name": "Cool Season Grass",
+    "imageUrl": "https://s3-us-west-2.amazonaws.com/rachio-api-icons/crop/cool_season_grass.png",
+    "coefficient": 0.8
+  },
+  "customShade": {
+    "name": "Some shade",
+    "description": "4-6 hours of sun",
+    "imageUrl": "https://s3-us-west-2.amazonaws.com/rachio-api-icons/shade/some_shade.png",
+    "exposure": 0.88
+  },
+  "availableWater": 0.15,
+  "rootZoneDepth": 6,
+  "managementAllowedDepletion": 0.5,
+  "efficiency": 0.8,
+  "yardAreaSquareFeet": 500,
+  "imageUrl": "http://media.rach.io/images/zone/2a5e7d3c-c140-4e2e-91a1-a212a518adc5/f0e042bd-7ba1-4aba-bede-6d8b16857d3a-1496606395386.png",
+  "lastWateredDuration": 368,
+  "lastWateredDate": 1499603197058,
+  "scheduleDataModified": false,
+  "fixedRuntime": 0,
+  "saturatedDepthOfWater": 0.5,
+  "depthOfWater": 0.45,
+  "maxRuntime": 10800,
+  "runtimeNoMultiplier": 1227,
+  "wateringAdjustmentRuntimes": {
+    "1": 1841,
+    "2": 1534,
+    "3": 1227,
+    "4": 920,
+    "5": 614
+  },
+  "runtime": 1227
+}

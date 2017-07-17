@@ -1,0 +1,52 @@
+{
+ "id": "f887ce96-3103-4774-9de9-6c66a725de18",
+ "zones": [
+ {
+ "zoneId": "1455bba1-0659-4662-91ff-2c1f1e2e9e01",
+ "zoneNumber": 1,
+ "duration": 300,
+ "sortOrder": 0
+ },
+ {
+ "zoneId": "4d66d57e-b207-462d-bba1-e7e15d61afd9",
+ "zoneNumber": 4,
+ "duration": 300,
+ "sortOrder": 3
+ },
+ {
+ "zoneId": "688e07b5-578f-442f-af8c-2b2dcc2dae97",
+ "zoneNumber": 5,
+ "duration": 300,
+ "sortOrder": 4
+ },
+ {
+ "zoneId": "745c6c55-73be-439f-b856-0b5d2cfcc488",
+ "zoneNumber": 3,
+ "duration": 300,
+ "sortOrder": 2
+ },
+ {
+ "zoneId": "450199ae-f952-469e-9e10-0be81547109b",
+ "zoneNumber": 2,
+ "duration": 300,
+ "sortOrder": 1
+ }
+ ],
+ "scheduleJobTypes": [
+ "DAY_OF_WEEK_3"
+ ],
+ "summary": "Every Wed at 9:05 AM",
+ "rainDelay": true,
+ "waterBudget": false,
+ "cycleSoakStatus": "ON",
+ "startDate": 1437677593983,
+ "name": "Every Wed at 9:05 AM",
+ "enabled": true,
+ "totalDuration": 1500,
+ "weatherIntelligenceSensitivity": 0.25,
+ "seasonalAdjustment": 0,
+ "totalDurationNoCycle": 1500,
+ "cycles": 1,
+ "externalName": "Every Wed at 9:05 AM",
+ "cycleSoak": true
+ }

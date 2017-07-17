@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+- node
+- '7'
+- '6'
+install:
+- npm install
+script:
+- npm run ci-test
+deploy:
+  provider: npm
+  email: jonathan.griggs@gmail.com
+  api_key:
+    secure: r0uSvQ4uqccIOzCWLxEsRUfixgHxBG63a0Qp3zdMkjwJxCzoqDYQyMO0ucduq3ofW2EDaIF57ERFJNhG4Mzkh8I+MEiOYVe6b5nYEk5pbNxyO4/AV9xYySkFswXviJmFwDLClL08A1pY1IK27lNVSi22GK8NnxPIpFKIrrARuVgAg9LKT64ery1EdalXPuQnhK+VKnG0s0DzIdm5doUIeR7nMMc1UhRT2/lnIAPjm33mjL39qh0QRN239QMDKsO93FKCe6qUKlfUxL4SW5f/tHlidwmHqEuLC5Xynyh4M3KwYxqwh9k7Fz45CaZ9Ytu0EZo0Qd3bZKby4ycKlPTKPle0jkmR5BrFOYDwLYFkkid1m57j3DrKwHq0X7grCl816xRWeeKWI5LTh1ahMC29SV+0UyULmUiSQyDdUBxpr+KlhbI0gtr2/Ogb7D3wqZDrv1XhQe0ALM/vDgAeRpftuAuWjvU2f24xfJ0hxwuAHFfuztGKj+ciZ69ATCw31C4ac9Q2SnuMy+aeTqBKWhUEHYs20U1VLq5i2YKC00eo3nMMSq+L2rA5b8DGslECCV0ED2PEFpgPL3bbLdN5ZG7ktzECY2v5dmO7vDuInUKleTN3ylbHQPn0gulUrilO7hhAQ4F8w91pZAXHsua2DyANiLlv4sdQxzFIXcobq6mtJbc=
+  on:
+    repo: boatmeme/rachio
+    branch: master
+    tags: true
