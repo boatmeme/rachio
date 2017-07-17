@@ -1,6 +1,6 @@
 {
   "name": "rachio",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Node.js client for Rachio Smart Sprinkler controller",
   "main": "index.js",
   "scripts": {
