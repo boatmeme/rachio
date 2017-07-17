@@ -181,8 +181,8 @@ const deviceId = '2a5e7d3c-c140-4e2e-91a1-a212a518adc5';
 client.getDevice(deviceId)
   .then(device => device.isWatering())
   .then(isWatering => console.log( isWatering
-    ? "The lunatic is on the grass"
-    : "The lunatic is in my head"));
+    ? 'The lunatic is on the grass'
+    : 'The lunatic is in my head'));
 ```
 ..._Looking outside, I see zone 5 watering_...
 ###### output
@@ -228,8 +228,8 @@ const deviceId = '2a5e7d3c-c140-4e2e-91a1-a212a518adc5';
 client.getDevice(deviceId)
   .then(device => device.getActiveZone())
   .then(activeZone => console.log( activeZone
-    ? "The lunatic is in ${activeZone.name}"
-    : "The lunatic is in my head"));
+    ? `The lunatic is in ${activeZone.name}`
+    : 'The lunatic is in my head'));
 ```
 ..._Looking outside, I see zone 5 watering_...
 ###### output
