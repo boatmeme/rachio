@@ -23,19 +23,25 @@ const client = new RachioClient('[YOUR-API-TOKEN]');
 ```
 # API
 
-#### Conventions
+#### Conventions & Hints
  - All calls are in the context of the api token used to instantiate the client
  - All functions return native Promises unless otherwise noted
  - All resource objects implement ```.toPlainObject()``` and ```.toJson()``` functions that can aid in application / development / debugging.
+ - Don't instantiate the Resource classes directly. Always get an instance from the ```RachioClient``` or returned from a method on another Resource instance.
  - There are often multiple ways to accomplish the same tasks in this library. For instance, the ```RachioClient``` provides entry points to every resource class provided you know the ids, but as you're learning and exploring the API, it might help to consider a relational approach, i.e., use the ```RachioClient``` to get ```Devices``` to get ```Zones```, etc.
 
 #### Classes
 - [RachioClient](#rachioclient)
-- Device
-- Zone
-- MultiZone
+- [Device](#device)
+- [Zone](#zone)
+- [MultiZone](#multizone)
 - CurrentConditions
+- CurrentSchdeule
+- Event
 - Forecast
+- Person
+- ScheduleItem
+- ScheduleRule
 -
 ---
 
@@ -207,7 +213,7 @@ true
 
 ## getActiveZone ( )
 ##### returns
- - a ```Promise``` to return a ```Zone``` objects that is currently watering.
+ - a ```Promise``` to return a ```Zone``` object that is currently watering.
  - ```false``` if no zone is currently watering
 
 ##### Use Case
@@ -354,7 +360,6 @@ client.getDevice(deviceId)
   .then(device => device.getEvents(startTime, endTime, filters))
   .then(events => events.forEach(e => console.log(e.toPlainObject())));
 ```
-..._Looking outside, I see zone 5 watering_...
 ###### output
 ```
 ...
@@ -424,7 +429,7 @@ client.getDevice(deviceId)
 ```
 
 #### Tip
-- When called with no parameters, ```Device.getForecast()``` will return the next 14 days of ```Forecast```s
+- When called with no parameters, ```Device.getForecast()``` will return the next 14 days of ```Forecast``` objects
 
 ## getForecastToday (units)
 ##### parameters
