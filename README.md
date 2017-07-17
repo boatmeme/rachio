@@ -42,7 +42,6 @@ const client = new RachioClient('[YOUR-API-TOKEN]');
 - Person
 - ScheduleItem
 - ScheduleRule
--
 ---
 
 # RachioClient
