@@ -5,6 +5,10 @@ node_js:
 - '6'
 install:
 - yarn install
+cache:
+  yarn: true
+  directories:
+    - node_modules
 script:
 - npm run ci-test
 deploy:
