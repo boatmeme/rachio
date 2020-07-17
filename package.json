@@ -50,7 +50,7 @@
     "lodash.reduce": "4.6.0",
     "lodash.values": "4.3.0",
     "moment": "2.19.3",
-    "request": "2.82.0"
+    "request": "2.88.0"
   },
   "devDependencies": {
     "codecov": "2.2.0",
